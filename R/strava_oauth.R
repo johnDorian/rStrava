@@ -7,6 +7,7 @@
 #' @param app_secret chr string for secret received when the app was registered
 #' @param app_scope chr string for scope of authentication, Must be "public", "write", "view_private", or "view_private,write"
 #' @param cache logical to cache the token
+#' @param if TRUE use http basic authentication to retrieve the token. Some authorization servers require this. If FALSE, the default, retrieve the token by including the app key and secret in the request body. 
 #'
 #' @details The \code{app_name}, \code{app_client_id}, and \code{app_secret} are specific to the user and can be obtained by registering an app on the Strava API authentication page: \url{http://strava.github.io/api/v3/oauth/}.  This requires a personal Strava account.
 #'
@@ -15,7 +16,7 @@
 #' @export
 #'
 #' @concept token
-strava_oauth <- function(app_name, app_client_id, app_secret, app_scope = 'public', cache = FALSE){
+strava_oauth <- function(app_name, app_client_id, app_secret, app_scope = 'public', cache = FALSE, use_basic_auth = TRUE){
       
 	strava_app <- oauth_app(appname = app_name, key = app_client_id, secret = app_secret)  
 	
@@ -27,6 +28,7 @@ strava_oauth <- function(app_name, app_client_id, app_secret, app_scope = 'publi
 	oauth2.0_token(endpoint = strava_end, 
 								 app = strava_app, 
 								 scope = app_scope, 
-								 cache = cache)
+								 cache = cache,
+								 use_basic_auth = use_basic_auth)
 	
 }
